@@ -148,11 +148,11 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-app.get('/fakeUser', async(req,res) =>{
-    const user = new User({email: 'harry@gmail.com', username: 'harryy' });
-    const newUser = await User.register(user, 'chicken');
-    res.send(newUser)
-})
+// app.get('/fakeUser', async(req,res) =>{
+//     const user = new User({email: 'harry@gmail.com', username: 'harryy' });
+//     const newUser = await User.register(user, 'chicken');
+//     res.send(newUser)
+// })
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page was not found!', 404));
