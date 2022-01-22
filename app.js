@@ -23,7 +23,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const MongoStore = require("connect-mongo");
 
 // const dbUrl = process.env.DB_URL
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp'
+const dbUrl = 'mongodb://localhost:27017/yelp-camp'
 // mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 mongoose.connect(dbUrl, {
     useNewUrlParser: true,
@@ -77,7 +77,7 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
-app.use(helmet());
+// app.use(helmet());
 
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
@@ -116,7 +116,7 @@ app.use(
                 "'self'",
                 "blob:",
                 "data:",
-                "https://res.cloudinary.com/diw75ri01/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+                "res.cloudinary.com/diw75ri01/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com/",
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
