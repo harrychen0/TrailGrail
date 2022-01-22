@@ -145,7 +145,7 @@ app.use('/', userRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.render('Home');
+    res.render('home');
 })
 
 app.get('/fakeUser', async(req,res) =>{
@@ -164,6 +164,9 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err });
 })
 
-app.listen(process.env.PORT, () => {
-    console.log('Serving on port something');
+const port = process.env.PORT || 3000;
+// added port
+
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`);
 })
