@@ -165,5 +165,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(process.env.PORT, () => {
-    console.log(`Serving on port ${port}`);
+    console.log('Serving on port something');
 })
