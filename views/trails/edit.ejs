@@ -1,20 +1,20 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <h1 class="text-center">Edit Campground</h1>
+    <h1 class="text-center">Edit Trail</h1>
     <div class="col-md-6 offset-md-3">
-        <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+        <form action="/trails/<%=trail._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="campground[title]"
-                    value="<%=campground.title %>" required>
+                <input class="form-control" type="text" id="title" name="trail[title]"
+                    value="<%=trail.title %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="campground[location]"
-                    value="<%=campground.location %>" required>
+                <input class="form-control" type="text" id="location" name="trail[location]"
+                    value="<%=trail.location %>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -24,11 +24,11 @@
                 <input class="form-control" type="file" id="image" name="image" accept=".jpg,.jpeg,.png" multiple>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="price">Campground Price</label>
+                <label class="form-label" for="price">Trail Cost (Parking, admission, gear rental, etc.)</label>
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">$</span>
                     <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                        aria-describedby="price-label" name="campground[price]" value="<%=campground.price %>"
+                        aria-describedby="price-label" name="trail[price]" value="<%=trail.price %>"
                         required><div class="valid-feedback">
                         Looks good!
                     </div>
@@ -37,15 +37,15 @@
 
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="campground[description]"
-                    required><%= campground.description%></textarea>
+                <textarea class="form-control" type="text" id="description" name="trail[description]"
+                    required><%= trail.description%></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
             </div>
             <div class="mb-3">
                 <label for="image-0" class="form-label">Delete Images</label>
-                <% campground.images.forEach((img,i) => { %>
+                <% trail.images.forEach((img,i) => { %>
                         <img src="<%= img.url %>" class="img-thumbnail" alt="...">
                         <div class="form-check-inline">
                             <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
@@ -54,10 +54,9 @@
                 <% }) %>
             </div>
             <div class="mb-3">
-                <button class="btn btn-info">Update Campground</button>
+                <button class="btn btn-info">Update Trail</button>
             </div>
         </form>
-        <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
-
+        <a class="btn btn-danger" href="/trails/<%= trail._id%>">Back To Trail</a>
     </div>
 </div>

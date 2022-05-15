@@ -11,7 +11,7 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
-const CampgroundSchema = new Schema({
+const TrailSchema = new Schema({
     title: String,
     images: [ImageSchema],
     price: Number,
@@ -28,7 +28,7 @@ const CampgroundSchema = new Schema({
         }
     ]
 });
-CampgroundSchema.post('findOneAndDelete', async function (doc) {
+TrailSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({
             _id: {
@@ -39,4 +39,4 @@ CampgroundSchema.post('findOneAndDelete', async function (doc) {
 })
 
 
-module.exports = mongoose.model('Campground', CampgroundSchema);
+module.exports = mongoose.model('Trail', TrailSchema);
