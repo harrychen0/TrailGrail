@@ -81,8 +81,8 @@ app.use(flash());
 
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
-    // "https://api.tiles.mapbox.com/",
-    // "https://api.mapbox.com/",
+    "https://api.tiles.mapbox.com/",
+    "https://api.mapbox.com/",
     "https://kit.fontawesome.com/",
     "https://cdnjs.cloudflare.com/",
     "https://cdn.jsdelivr.net",
@@ -149,11 +149,6 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-// app.get('/fakeUser', async(req,res) =>{
-//     const user = new User({email: 'harry@gmail.com', username: 'harryy' });
-//     const newUser = await User.register(user, 'chicken');
-//     res.send(newUser)
-// })
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page was not found!', 404));
@@ -166,7 +161,6 @@ app.use((err, req, res, next) => {
 })
 
 const port = process.env.PORT || 3000;
-// added port
 
 app.listen(port, () => {
     console.log(`Serving on port ${port}`);
