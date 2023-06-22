@@ -1,4 +1,7 @@
 const Trail = require('../models/trail');
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const Geocoder = mbxGeocoding({accessToken:mapBoxToken});
 const {cloudinary} = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
@@ -11,7 +14,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createTrail = async (req, res, next) => {
+    const geoData = await Geocoder.forwardGeocode({
+        query: req.body.trail.location,
+        limit: 1
+    }).send()
     const trail = new Trail(req.body.trail);
+    trail.geometry = geoData.body.features[0].geometry;
     trail.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     trail.author = req.user._id;
     await trail.save();
@@ -48,7 +56,7 @@ module.exports.editTrail = async (req, res) => {
 
 module.exports.updateTrail = async (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
+    // console.log(req.body);
     const trail = await Trail.findByIdAndUpdate(id, { ...req.body.trail });
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     trail.images.push(...imgs);

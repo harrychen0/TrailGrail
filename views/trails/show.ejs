@@ -1,68 +1,73 @@
 <% layout('layouts/boilerplate')%>
+
+
     <div class="row">
         <div class="col-6">
             <div class="card mb-3">
                 <% if(trail.images[0]){ %>
                     <div id="carouselExampleControls" class="carousel slide carousel-fade" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <% trail.images.forEach((img,i) => { %>
+                            <% trail.images.forEach((img,i)=> { %>
                                 <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
                                     <img src="<%= img.url %>" class="d-block w-100" alt="...">
                                 </div>
-                            <% }) %>
+                                <% }) %>
                         </div>
-                        <% if (trail.images.length > 1) {%>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                          </button>
-                          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                          </button>
+                        <% if (trail.images.length> 1) {%>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                            <% } %>
+                    </div>
+                    <% } else{ %>
+                        <img class="img-fluid" alt=""
+                            src="https://res.cloudinary.com/diw75ri01/image/upload/v1647809945/TrailGrail/placeholder/placeholder_pjqtkq.png">
                         <% } %>
-                    </div>
-                <% } else{ %>
-                    <img class="img-fluid" alt="" src="https://res.cloudinary.com/diw75ri01/image/upload/v1647809945/TrailGrail/placeholder/placeholder_pjqtkq.png">
-                <% } %>
-
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <%= trail.title%>
-                    </h5>
-                    <p class="card-text">
-                        <%= trail.description%>
-                    </p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-muted">
-                        <%= trail.location%>
-                    </li>
-                    <li class="list-group-item">
-                        Shared by <strong>
-                            <%= trail.author.username%>
-                        </strong>
-                    </li>
-                    <li class="list-group-item">Cost: $<%= trail.price%></li>
-                </ul>
-                <% if(currentUser && trail.author.equals(currentUser)) {%>
-                    <div class="card-body">
-                        <a class="card-link btn btn-info" href="/trails/<%=trail._id%>/edit">Edit</a>
-                        <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
-                    </div>
-                <%}%>
-                <!-- <div class="card-footer text-muted">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= trail.title%>
+                                </h5>
+                                <p class="card-text">
+                                    <%= trail.description%>
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item text-muted">
+                                    <%= trail.location%>
+                                </li>
+                                <li class="list-group-item">
+                                    Shared by <strong>
+                                        <%= trail.author.username%>
+                                    </strong>
+                                </li>
+                                <li class="list-group-item">Cost: $<%= trail.price%>
+                                </li>
+                            </ul>
+                            <% if(currentUser && trail.author.equals(currentUser)) {%>
+                                <div class="card-body">
+                                    <a class="card-link btn btn-info" href="/trails/<%=trail._id%>/edit">Edit</a>
+                                    <form class="d-inline" action="/trails/<%=trail._id%>?_method=DELETE" method="POST">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                                <%}%>
+                                    <!-- <div class="card-footer text-muted">
                     2 days ago
                 </div> -->
             </div>
         </div>
         <div class="col-6">
+            <div id='map' style='width: 400px; height: 300px;'></div>
             <% if(currentUser){%>
                 <h2>Leave your review below!</h2>
-                <form action="/trails/<%=trail._id%>/reviews" novalidate method="POST"
-                    class="mb-3 needs-validation">
+                <form action="/trails/<%=trail._id%>/reviews" novalidate method="POST" class="mb-3 needs-validation">
                     <!-- <div class="mb-3">
                     <label for="rating" class="form-label">Rating</label>
                     <input type="range" min="1" max="5" class="form-range" name="review[rating]" id="rating">
@@ -107,8 +112,7 @@
                                     <%=review.body%>
                                 </p>
                                 <% if(currentUser && review.author.equals(currentUser)) {%>
-                                    <form action="<%=trail._id%>/reviews/<%=review._id%>?_method=DELETE"
-                                        method="POST">
+                                    <form action="<%=trail._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                     <% }%>
@@ -117,3 +121,8 @@
                         <%}%>
         </div>
     </div>
+    <script>
+        const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+        const trail = <%-JSON.stringify(trail)%>
+    </script>
+    <script src="/javascripts/showPageMap.js"></script>
